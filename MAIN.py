@@ -68,6 +68,7 @@ class Hero:
 
     def does_collide(self, rect2):
         self.rect2 = rect2
+        self.rect1 = (self.x_hero, self.y_hero, 55, 129)
         if self.rect1[0] <= self.rect2[0] + self.rect2[2] and self.rect1[0] + self.rect1[2] >= self.rect2[0] \
                 and self.rect1[1] <= self.rect2[1] + self.rect2[3] and self.rect1[3] + self.rect1[1] >= self.rect2[1]:
             return True
@@ -256,7 +257,7 @@ sound_damage = pygame.mixer.Sound('data/SOUNDS/DAMAGE.mp3')
 pygame.mixer.music.play(-1)
 
 size = (1280, 720)
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 red_enemy_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED1.png'),
@@ -393,7 +394,7 @@ timer = 0
 font = pygame.font.Font(None, 68)
 font2 = pygame.font.Font(None, 30)
 key1 = Key(30, size[1] - 100)
-damage = 0
+damage = 1
 key2 = Key(size[0] - 100, size[1] - 160)
 door1 = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y')
 door2 = Door(0, size[1] // 2 - 85, passage_list, 'y')
@@ -433,11 +434,8 @@ def room1():
                 sys.exit()
         if door1.collide():
             run = 0
-            print(hero.x_hero, hero.y_hero)
             hero.x_hero, hero.y_hero = 60, size[1] // 2 - 85
-            print(hero.x_hero, hero.y_hero)
             room2()
-
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
         screen.blit(door1.sprite, (door1.x, door1.y))
@@ -458,7 +456,6 @@ def room1():
 def room2():
     global run, time_count, text, event, timer, hp_count, hp
     run = 1
-    print(hero.x_hero)
     while run:
         time_count = pygame.time.get_ticks()
         text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
@@ -482,7 +479,7 @@ def room2():
         if door4.collide():
             run = 0
             room3()
-        if not key1.key_invent:
+        if not key2.key_invent:
             if door3.collide():
                 run = 0
                 room4()
@@ -492,7 +489,6 @@ def room2():
             room1()
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
-        screen.blit(key_sprite, (key2.x, key2.y))
         screen.blit(door2.sprite, (door2.x, door2.y))
         screen.blit(door3.sprite, (door3.x, door3.y))
         screen.blit(door4.sprite, (door4.x, door4.y))
@@ -550,6 +546,8 @@ def room3():
             i.render_log()
             screen.blit(i.image_enemy, (i.x, i.y))
         pygame.display.set_caption(f'{clock.get_fps()}')
+        key2.collide()
+        screen.blit(key_sprite, (key2.x, key2.y))
         clock.tick(FPS)
         pygame.display.update()
 
