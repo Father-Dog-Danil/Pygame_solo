@@ -38,15 +38,19 @@ class Door:
             return 0
 
 
-class Hero:
+class Hero(pygame.sprite.Sprite):
     def __init__(self, speed, list, size):
+        pygame.sprite.Sprite.__init__(self)
+        self.w, self.h = 55, 130
+        self.x_hero = self.wall_x = 8
+        self.y_hero = self.wall_y = 8
+        self.image = pygame.Surface((self.w, self.h))
+        self.image = list[0]
+        self.rect = pygame.Rect(self.x_hero, self.y_hero, self.w, self.h)
         self.speed = speed
         self.size = size
         self.image_hero_list = list
         self.count = 0
-        self.x_hero = self.wall_x = 8
-        self.y_hero = self.wall_y = 8
-        self.rect1 = (self.x_hero - 5, self.y_hero - 10, 60, 150)
         self.cof = int(FPS * 0.3)
 
     def move(self, keys):
@@ -58,7 +62,7 @@ class Hero:
             self.x_hero += self.speed
         elif keys[pygame.K_a] and not hero.x_hero < self.wall_x + 5:
             self.x_hero -= self.speed
-        self.rect1 = (self.x_hero, self.y_hero, 55, 129)
+        self.rect = pygame.Rect(self.x_hero, self.y_hero, self.w, self.h)
 
     def render(self):
         if self.count >= len(self.image_hero_list) * self.cof:
@@ -67,36 +71,38 @@ class Hero:
         self.count += 1
 
     def does_collide(self, rect2):
-        self.rect2 = rect2
-        self.rect1 = (self.x_hero, self.y_hero, 55, 129)
-        if self.rect1[0] <= self.rect2[0] + self.rect2[2] and self.rect1[0] + self.rect1[2] >= self.rect2[0] \
-                and self.rect1[1] <= self.rect2[1] + self.rect2[3] and self.rect1[3] + self.rect1[1] >= self.rect2[1]:
-            return True
+        self.rect = pygame.Rect(self.x_hero, self.y_hero, self.w, self.h)
+        if pygame.sprite.spritecollide(self, rect2, False):
+            print(1111111111111111)
+            return 1
         else:
-            return False
+            return 0
 
 
-class Enemy:
+class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, dist, speed, orientation, sprite_list, flag=0):
+        pygame.sprite.Sprite.__init__(self)
         self.sprite_list = sprite_list
         if self.sprite_list == red_enemy_list:
             self.w, self.h = 80, 80
         elif self.sprite_list == log_enemy_list:
             self.w, self.h = 200, 70
-        elif self.sprite_list == log_enemy_list_y:
+        else:
             self.w, self.h = 70, 200
         self.orientation = orientation
         self.control_x = x
         self.control_y = y
         self.x = x
         self.y = y
+        self.image = pygame.Surface((self.w, self.h))
+        self.image = sprite_list[0]
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
         self.dist = dist
         self.speed = speed
         self.flag = 1
         self.flag2 = flag
         self.count = 0
         self.image_enemy = self.sprite_list[0]
-        self.rect = (self.x, self.y, self.w, self.h)
         self.cof = int(FPS * 0.08)
         self.flag1 = 1
         self.cof2 = int(FPS * 0.3)
@@ -174,7 +180,7 @@ class Enemy:
             self.image_enemy = self.sprite_list[self.count // self.cof2]
 
     def does_collide(self):
-        self.rect = (self.x, self.y, self.w, self.h)
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
         if hero.does_collide(self.rect):
             return 1
         else:
@@ -257,7 +263,7 @@ sound_damage = pygame.mixer.Sound('data/SOUNDS/DAMAGE.mp3')
 pygame.mixer.music.play(-1)
 
 size = (1280, 720)
-screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+screen = pygame.display.set_mode(size)
 
 red_enemy_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED1.png'),
