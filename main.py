@@ -202,7 +202,7 @@ hero_walk_list = [
 
 hp_count = 0
 FPS = 200
-SPEED = 3000 / FPS
+SPEED = 500 / FPS
 hero = Hero(SPEED, hero_list, size, hero_walk_list, FPS)
 clock = pygame.time.Clock()
 speed_mushroom = 210 / FPS
