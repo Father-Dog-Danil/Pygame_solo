@@ -517,7 +517,7 @@ def room2():
         if not key2.key_invent:
             if door3.collide():
                 run = 0
-                hero.y_hero = size[1] - 200
+                hero.y_hero = size[1] - 160
                 room4()
         if door2.collide():
             run = 0
@@ -568,7 +568,7 @@ def room3():
             run = 0
             hero.x_hero, hero.y_hero = size[0] - 100, size[1] // 2 - 85
             room2()
-        screen.blit(door3.sprite, (door3.x, door3.y))
+        screen.blit(door5.sprite, (door5.x, door5.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
@@ -636,4 +636,4 @@ def room4():
         pygame.display.update()
 
 
-room2()
+room3()
