@@ -10,9 +10,11 @@ class Key:
         self.rect = (self.x, self.y, 66, 30)
         self.sound_key = pygame.mixer.Sound('data/SOUNDS/KEY2.mp3')
         self.key_invent = True
+        self.flag = 1
 
     def collide(self):
-        if hero.does_collide(self.rect):
+        if hero.does_collide(self.rect) and self.flag:
+            self.flag = 0
             self.key_invent = False
             self.sound_key.play()
             self.x, self.y = 1200, 10
@@ -65,6 +67,7 @@ class Hero(pygame.sprite.Sprite):
         self.image = pygame.Surface((self.w, self.h))
         self.image = self.image
         self.rect = pygame.Rect(self.x_hero, self.y_hero, self.w, self.h)
+        self.render()
 
     def render(self):
         if self.count >= len(self.image_hero_list) * self.cof:
@@ -72,8 +75,9 @@ class Hero(pygame.sprite.Sprite):
         self.image = self.image_hero_list[self.count // self.cof]
         self.count += 1
 
-    def does_collide(self, rect2):
+    def does_collide_enemy(self, rect2):
         self.rect = pygame.Rect(self.x_hero, self.y_hero, self.w, self.h)
+        print(self.rect)
         c = pygame.sprite.spritecollide(self, rect2, False)
         print(c)
         if c:
@@ -81,18 +85,29 @@ class Hero(pygame.sprite.Sprite):
         else:
             return 0
 
+    def does_collide(self, rect2):
+        self.rect2 = rect2
+        self.rect1 = (self.x_hero, self.y_hero, self.w, self.h)
+        if self.rect1[0] <= self.rect2[0] + self.rect2[2] and self.rect1[0] + self.rect1[2] >= self.rect2[0] \
+                and self.rect1[1] <= self.rect2[1] + self.rect2[3] and self.rect1[3] + self.rect1[1] >= self.rect2[1]:
+            return True
+        else:
+            return False
+
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, dist, speed, orientation, sprite_list, list1, flag=0):
-        pygame.sprite.Sprite.__init__(self, all_sprites)
+    def __init__(self, x, y, dist, speed, orientation, sprite_list, list1):
         self.sprite_list = sprite_list
         self.list = list1
         if self.sprite_list == red_enemy_list:
-            self.w, self.h = 50, 50
+            self.w, self.h = 70, 60
+            pygame.sprite.Sprite.__init__(self, list_red_room1)
         elif self.sprite_list == log_enemy_list:
-            self.w, self.h = 200, 70
+            self.w, self.h = 200, 50
+            pygame.sprite.Sprite.__init__(self, list_log_room2)
         else:
-            self.w, self.h = 70, 200
+            self.w, self.h = 50, 200
+            pygame.sprite.Sprite.__init__(self, list_log_room3)
         self.orientation = orientation
         self.control_x = x
         self.control_y = y
@@ -105,13 +120,45 @@ class Enemy(pygame.sprite.Sprite):
         self.dist = dist
         self.speed = speed
         self.flag = 1
-        self.flag2 = flag
         self.count = 0
         self.cof = int(FPS * 0.08)
         self.flag1 = 1
         self.cof2 = int(FPS * 0.3)
 
     def update(self):
+        if self.sprite_list == red_enemy_list:
+            self.move()
+            self.render()
+        elif self.sprite_list == log_enemy_list:
+            self.move()
+            self.render_log()
+        else:
+            self.move_tp()
+            self.render_log()
+
+    def move_tp(self):
+        if self.orientation == 'x':
+            if self.flag:
+                if self.control_x + self.dist >= self.x:
+                    self.x += self.speed
+                else:
+                    self.flag = 0
+            else:
+                self.x = - 55
+                self.flag = 1
+        elif self.orientation == 'y':
+            if self.flag:
+                if self.control_y + self.dist >= self.y:
+                    self.y += self.speed
+                else:
+                    self.flag = 0
+            else:
+                if self.control_y <= self.y:
+                    self.y -= self.speed
+                else:
+                    self.flag = 1
+
+    def move(self):
         if self.orientation == 'x':
             if self.flag:
                 if self.control_x + self.dist >= self.x:
@@ -139,30 +186,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.image
         self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
 
-    def move_tp(self):
-        if self.orientation == 'x':
-            if self.flag:
-                if self.control_x + self.dist >= self.x:
-                    self.x += self.speed
-                else:
-                    self.flag = 0
-            else:
-                self.x = - 55
-                self.flag = 1
-        elif self.orientation == 'y':
-            if self.flag:
-                if self.control_y + self.dist >= self.y:
-                    self.y += self.speed
-                else:
-                    self.flag = 0
-            else:
-                if self.control_y <= self.y:
-                    self.y -= self.speed
-                else:
-                    self.flag = 1
-
     def render(self):
-
         if self.count >= len(self.sprite_list) * 2:
             self.flag1 = 0
         elif self.count <= 0:
@@ -173,7 +197,6 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.count -= 1
             self.image = self.sprite_list[self.count // 2]
-
 
     def render_log(self):
         if self.count >= int(len(self.sprite_list) * self.cof2):
@@ -189,7 +212,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def does_collide(self):
         self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
-        if hero.does_collide(self.list):
+        if hero.does_collide_enemy(self.list):
             return 1
         else:
             return 0
@@ -398,13 +421,13 @@ log8 = Enemy(size[0] - 205 * 3, coridor_log, size[1] - coridor_log - 55, speed_l
 log9 = Enemy(size[0] - 205 * 4, coridor_log, size[1] - coridor_log - 55, speed_log, 'y', log_enemy_list, list_log_room2)
 log10 = Enemy(size[0] - 205 * 5, coridor_log, size[1] - coridor_log - 55, speed_log, 'y', log_enemy_list, list_log_room2)
 
-log11 = Enemy(-400, 15 + 200 * 0, size[0] + 460, speed_log2, 'x', log_enemy_list_y, list_log_room3, 1)
-log12 = Enemy(-950, 15 + 245 * 1, size[0] + 1010, speed_log2, 'x', log_enemy_list_y, list_log_room3, 1)
-log13 = Enemy(-400, 15 + 245 * 2, size[0] + 460, speed_log2, 'x', log_enemy_list_y, list_log_room3, 1)
+log11 = Enemy(-400, 15 + 200 * 0, size[0] + 460, speed_log2, 'x', log_enemy_list_y, list_log_room3)
+log12 = Enemy(-950, 15 + 245 * 1, size[0] + 1010, speed_log2, 'x', log_enemy_list_y, list_log_room3)
+log13 = Enemy(-400, 15 + 245 * 2, size[0] + 460, speed_log2, 'x', log_enemy_list_y, list_log_room3)
 
-log14 = Enemy(-1400, 15 + 200 * 0, size[0] + 1460, speed_log2, 'x', log_enemy_list_y, list_log_room3, 1)
-log15 = Enemy(-1400, 15 + 245 * 2, size[0] + 1460, speed_log2, 'x', log_enemy_list_y, list_log_room3, 1)
-log16 = Enemy(-1600, 15 + 245 * 1, size[0] + 1660, speed_log2, 'x', log_enemy_list_y, list_log_room3, 1)
+log14 = Enemy(-1400, 15 + 200 * 0, size[0] + 1460, speed_log2, 'x', log_enemy_list_y, list_log_room3)
+log15 = Enemy(-1400, 15 + 245 * 2, size[0] + 1460, speed_log2, 'x', log_enemy_list_y, list_log_room3)
+log16 = Enemy(-1600, 15 + 245 * 1, size[0] + 1660, speed_log2, 'x', log_enemy_list_y, list_log_room3)
 
 hp = heart_list[hp_count]
 timer = 0
@@ -418,7 +441,7 @@ door2 = Door(0, size[1] // 2 - 85, passage_list, 'y')
 door3 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x')
 door4 = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y')
 door5 = Door(0, size[1] // 2 - 85, passage_list, 'y')
-dialog = ['О! пришёл!', 'кто я такой?', 'не могу сказать...', 'они уже близко,', 'прыгай в телепорт!']
+dialog = ['О! пришёл!', 'кто я такой?', 'не могу сказать...', 'они уже близко,', 'прыгай в портал!']
 npc = Nps(size[0] - 200, size[1] // 2 - 50, npc_list1, npc_anime_list1, dialog)
 time_count = pygame.time.get_ticks()
 
@@ -442,13 +465,13 @@ def room1():
         hero.render()
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
-            if log1.does_collide():
+            if red1.does_collide():
                 hp_count += damage
                 hp = heart_list[hp_count]
                 sound_damage.play()
             if hp_count == 3:
                 sys.exit()
-        if False:
+        if door1.collide():
             run = 0
             hero.x_hero, hero.y_hero = 60, size[1] // 2 - 85
             room2()
@@ -460,8 +483,8 @@ def room1():
         if 1 in keys:
             hero.move(keys)
         screen.blit(hp, (10, 10))
-        red1.list.update()
-        red1.list.draw(screen)
+        list_red_room1.update()
+        list_red_room1.draw(screen)
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
         pygame.display.update()
@@ -482,9 +505,7 @@ def room2():
         hero.render()
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
-            if log1.does_collide() or log2.does_collide() or log3.does_collide() \
-                    or log4.does_collide() or log5.does_collide() or log6.does_collide() \
-                    or log7.does_collide() or log8.does_collide() or log9.does_collide() or log10.does_collide():
+            if log1.does_collide():
                 hp_count += damage
                 hp = heart_list[hp_count]
                 sound_damage.play()
@@ -496,6 +517,7 @@ def room2():
         if not key2.key_invent:
             if door3.collide():
                 run = 0
+                hero.y_hero = size[1] - 200
                 room4()
         if door2.collide():
             run = 0
@@ -511,10 +533,8 @@ def room2():
             hero.move(keys)
         screen.blit(hp, (10, 10))
         screen.blit(hero.image, (hero.x_hero, hero.y_hero))
-        log1.render_log()
-        for i in list_log_room2:
-            i.move()
-            screen.blit(log1.image, (i.x, i.y))
+        list_log_room2.update()
+        list_log_room2.draw(screen)
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
         pygame.display.update()
@@ -536,8 +556,7 @@ def room3():
         hero.render()
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
-            if log11.does_collide() or log12.does_collide() or log13.does_collide() \
-                    or log14.does_collide() or log15.does_collide() or log16.does_collide():
+            if log12.does_collide():
                 hp_count += damage
                 hp = heart_list[hp_count]
                 sound_damage.play()
@@ -554,11 +573,9 @@ def room3():
         if 1 in keys:
             hero.move(keys)
         screen.blit(hp, (10, 10))
+        list_log_room3.update()
+        list_log_room3.draw(screen)
         screen.blit(hero.image, (hero.x_hero, hero.y_hero))
-        for i in list_log_room3:
-            i.move_tp()
-            i.render_log()
-            screen.blit(i.image, (i.x, i.y))
         pygame.display.set_caption(f'{clock.get_fps()}')
         key2.collide()
         screen.blit(key_sprite, (key2.x, key2.y))
@@ -619,4 +636,4 @@ def room4():
         pygame.display.update()
 
 
-room1()
+room2()
