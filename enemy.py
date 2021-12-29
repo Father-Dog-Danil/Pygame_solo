@@ -27,7 +27,6 @@ class Mushroom(pygame.sprite.Sprite):
         self.move()
         self.render()
 
-
     def move(self):
         if self.orientation == 'x':
             if self.flag:
@@ -72,7 +71,7 @@ class Log1(pygame.sprite.Sprite):
     def __init__(self, x, y, dist, speed, sprite_list, list1):
         self.sprite_list = sprite_list
         self.list = list1
-        self.w, self.h = 200, 50
+        self.w, self.h = 200, 70
         super().__init__(self.list)
         self.control_x = x
         self.control_y = y
@@ -91,42 +90,44 @@ class Log1(pygame.sprite.Sprite):
 
     def update(self):
         self.move()
-        self.render()
 
     def move(self):
+        self.image = pygame.Surface((self.w, self.h))
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
         if self.flag:
+            self.render1()
             if self.control_y + self.dist >= self.y:
                 self.y += self.speed
             else:
                 self.flag = 0
         else:
+            self.render2()
             if self.control_y <= self.y:
                 self.y -= self.speed
             else:
                 self.flag = 1
         self.add(self.list)
-        self.image = pygame.Surface((self.w, self.h))
-        self.image = self.image
-        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
 
-    def render(self):
+    def render1(self):
+        if self.count >= int(len(self.sprite_list) * self.cof2) or self.count < 0:
+            self.count = 0
+        self.flag1 = 0
+        self.image = self.sprite_list[self.count // self.cof2]
+        self.count += 1
+
+    def render2(self):
         if self.count >= int(len(self.sprite_list) * self.cof2):
-            self.flag1 = 0
-        elif self.count <= 0:
-            self.flag1 = 1
-        if self.flag1:
-            self.image = self.sprite_list[self.count // self.cof2]
-            self.count += 1
-        else:
-            self.count -= 1
-            self.image = self.sprite_list[self.count // self.cof2]
+            self.count = 0
+        self.flag1 = 0
+        self.image = self.sprite_list[self.count // self.cof2]
+        self.count -= 1
 
 
 class Log2(pygame.sprite.Sprite):
     def __init__(self, x, y, dist, speed, sprite_list, list1):
         self.sprite_list = sprite_list
         self.list = list1
-        self.w, self.h = 50, 200
+        self.w, self.h = 70, 200
         super().__init__(self.list)
         self.control_x = x
         self.control_y = y
@@ -141,7 +142,7 @@ class Log2(pygame.sprite.Sprite):
         self.flag = 1
         self.count = 0
         self.flag1 = 1
-        self.cof2 = 60
+        self.cof2 = 30
 
     def update(self):
         self.move()
@@ -163,15 +164,10 @@ class Log2(pygame.sprite.Sprite):
 
     def render(self):
         if self.count >= int(len(self.sprite_list) * self.cof2):
-            self.flag1 = 0
-        elif self.count <= 0:
-            self.flag1 = 1
-        if self.flag1:
-            self.image = self.sprite_list[self.count // self.cof2]
-            self.count += 1
-        else:
-            self.count -= 1
-            self.image = self.sprite_list[self.count // self.cof2]
+            self.count = 0
+        self.flag1 = 0
+        self.image = self.sprite_list[self.count // self.cof2]
+        self.count += 1
 
 
 class Cockroach1(pygame.sprite.Sprite):
@@ -220,11 +216,10 @@ class Cockroach1(pygame.sprite.Sprite):
                     if self.count_time < self.time:
                         self.count_time = self.time + randint(0, 2000)
                     self.flag = 1
-            self.image = pygame.Surface((self.w, self.h))
             self.render1()
-            self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
         else:
             self.render2()
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
 
     def render1(self):
         if self.flag:

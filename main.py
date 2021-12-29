@@ -6,7 +6,6 @@ from hero import Hero
 from enemy import Mushroom, Log1, Log2, Cockroach1
 from NPC import Npc
 from torch import Torch
-
 pygame.init()
 
 
@@ -69,9 +68,12 @@ mushroom_enemy_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED13.png')]
 
 log_enemy_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/log1.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/log2.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/log3.png').convert()]
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D1.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D2.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D3.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D4.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D5.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D6.png').convert()]
 
 cockroach_walk_up = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_WALK1.png'),
@@ -101,9 +103,12 @@ cockroach_sniffs_down = [
 
 
 log_enemy_list_y = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/log_y1.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/log_y2.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/log_y3.png').convert()]
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R1.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R2.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R3.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R4.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R5.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R6.png').convert()]
 
 heart_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART1.png'),
@@ -141,8 +146,7 @@ npc_anime_list1 = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME6.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME7.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME8.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME9.png')
-]
+    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME9.png')]
 
 torch_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH5.png'),
@@ -160,7 +164,21 @@ ball_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_4.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_5.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_7.png')]
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_7.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_8.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_9.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_10.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_11.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_12.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_13.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_14.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_15.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_16.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_17.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_18.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_19.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_20.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_21.png')]
 
 portal_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL1.png'),
@@ -202,7 +220,7 @@ hero_walk_list = [
 
 hp_count = 0
 FPS = 200
-SPEED = 500 / FPS
+SPEED = 2000 / FPS
 hero = Hero(SPEED, hero_list, size, hero_walk_list, FPS)
 clock = pygame.time.Clock()
 speed_mushroom = 210 / FPS
@@ -271,15 +289,9 @@ cockroach8 = Cockroach1(20 + 165 * 7, 5, size[1] - 155, speed_cockroach, cockroa
 cockroach9 = Cockroach1(20 + 165 * 8, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
                         cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
 
-door1 = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y', hero)
-door2 = Door(0, size[1] // 2 - 85, passage_list, 'y', hero)
-door3 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
-door4 = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y', hero)
-door5 = Door(0, size[1] // 2 - 85, passage_list, 'y', hero)
-
-door6 = Door(0, size[1] // 2 - 85, passage_list, 'y', hero)
-door7 = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y', hero)
-door8 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
+door_right = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y', hero)
+door_left = Door(0, size[1] // 2 - 85, passage_list, 'y', hero)
+door_up = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
 
 key_sound = pygame.mixer.Sound('data/SOUNDS/KEY2.mp3')
 hp = heart_list[hp_count]
@@ -302,6 +314,42 @@ flag_time = 0
 count = 0
 
 
+def room0():
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    run = 1
+    while run:
+        time_count = pygame.time.get_ticks()
+        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = 0
+            elif event.type == pygame.QUIT:
+                sys.exit()
+        hero.render()
+        if door_right.collide():
+            run = 0
+            hero.x = 60
+            room1()
+        screen.blit(bg, (0, 0))
+        screen.blit(text, (150, 10))
+        screen.blit(door_right.sprite, (door_right.x, door_right.y))
+        keys = pygame.key.get_pressed()
+        if 1 in keys:
+            hero.move(keys)
+        screen.blit(hp, (10, 10))
+        count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
+        if count == 336:
+            count = 0
+        screen.blit(ball_list[count // 16], (size[0] - 100, 10))
+        count += 1
+        screen.blit(count_ball_text, (size[0] - 50, 10))
+        screen.blit(hero.image, (hero.x, hero.y))
+        pygame.display.set_caption(f'{clock.get_fps()}')
+        clock.tick(FPS)
+        pygame.display.update()
+
+
 def room1():
     global run, time_count, text, event, timer, hp_count, hp, count_ball_text, count
     run = 1
@@ -322,19 +370,19 @@ def room1():
                 sound_damage.play()
             if hp_count == 3:
                 sys.exit()
-        if door1.collide():
+        if door_right.collide():
             run = 0
             hero.x = 60
             room2()
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
         screen.blit(hp, (10, 10))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
-        screen.blit(door1.sprite, (door1.x, door1.y))
+        screen.blit(door_right.sprite, (door_right.x, door_right.y))
         screen.blit(hero.image, (hero.x, hero.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
@@ -369,30 +417,30 @@ def room2():
                 sound_damage.play()
             if hp_count == 3:
                 sys.exit()
-        if door4.collide():
+        if door_right.collide():
             run = 0
             hero.x = 60
             room3()
         if not key2.key_invent:
-            if door3.collide():
+            if door_up.collide():
                 run = 0
                 hero.y = size[1] - 160
                 room4()
-        if door2.collide():
+        if door_left.collide():
             run = 0
             hero.x = size[0] - 100
             room1()
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
-        screen.blit(door2.sprite, (door2.x, door2.y))
-        screen.blit(door3.sprite, (door3.x, door3.y))
-        screen.blit(door4.sprite, (door4.x, door4.y))
+        screen.blit(door_left.sprite, (door_left.x, door_left.y))
+        screen.blit(door_up.sprite, (door_up.x, door_up.y))
+        screen.blit(door_right.sprite, (door_right.x, door_right.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
         screen.blit(hp, (10, 10))
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
@@ -428,17 +476,17 @@ def room3():
                 sys.exit()
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
-        if door5.collide():
+        if door_left.collide():
             run = 0
             hero.x = size[0] - 100
             room2()
-        screen.blit(door5.sprite, (door5.x, door5.y))
+        screen.blit(door_left.sprite, (door_left.x, door_left.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
         screen.blit(hp, (10, 10))
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
@@ -462,7 +510,9 @@ def room4():
         text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_ESCAPE:
+                    run = 0
+                elif event.key == pygame.K_SPACE and npc.flag2 < 2:
                     npc.dialog()
             elif event.type == pygame.QUIT:
                 sys.exit()
@@ -472,7 +522,6 @@ def room4():
         screen.blit(bg_house, (0, 0))
         screen.blit(text, (150, 10))
         keys = pygame.key.get_pressed()
-
         if npc.flag2:
             if npc.flag2 == 2:
                 portal1.render1()
@@ -488,6 +537,7 @@ def room4():
                 portal1.render3()
                 screen.blit(portal1.sprite, (portal1.x, portal1.y))
             elif npc.flag2 == 5:
+                run = 0
                 hero.x, hero.h = size[0] // 2 - 55 // 2, size[1] - 300
                 pygame.mixer.music.load('data/SOUNDS/dung.mp3')
                 pygame.mixer.music.set_volume(0.1)
@@ -497,7 +547,7 @@ def room4():
                 hero.move(keys)
         screen.blit(hp, (10, 10))
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
@@ -543,24 +593,24 @@ def room5():
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
-        if door7.collide():
-            run = 0
-            hero.x = 60
-            room7()
-        if door6.collide():
+        if door_left.collide():
             run = 0
             hero.x = size[0] - 100
             room6()
+        elif door_right.collide():
+            run = 0
+            hero.x = 60
+            room7()
         screen.blit(bg_dung, (0, 0))
         screen.blit(text, (150, 10))
-        screen.blit(door6.sprite, (door6.x, door6.y))
-        screen.blit(door7.sprite, (door7.x, door7.y))
+        screen.blit(door_right.sprite, (door_right.x, door_right.y))
+        screen.blit(door_left.sprite, (door_left.x, door_left.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
         screen.blit(hp, (10, 10))
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
@@ -596,13 +646,13 @@ def room6():
             timer = time_count + 500
             if hp_count == 3:
                 sys.exit()
-        if door7.collide():
+        if door_right.collide():
             run = 0
             hero.x = 60
             room5()
         screen.blit(bg_dung, (0, 0))
         screen.blit(text, (150, 10))
-        screen.blit(door7.sprite, (door7.x, door7.y))
+        screen.blit(door_right.sprite, (door_right.x, door_right.y))
         cockroach1.list.update(time_count)
         cockroach1.list.draw(screen)
         keys = pygame.key.get_pressed()
@@ -610,7 +660,7 @@ def room6():
             hero.move(keys)
         screen.blit(hp, (10, 10))
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
@@ -638,19 +688,19 @@ def room7():
             timer = time_count + 500
             if hp_count == 3:
                 sys.exit()
-        if door6.collide():
+        if door_left.collide():
             run = 0
             hero.x = size[0] - 100
             room5()
         screen.blit(bg_dung_p, (0, 0))
         screen.blit(text, (150, 10))
-        screen.blit(door6.sprite, (door6.x, door6.y))
+        screen.blit(door_left.sprite, (door_left.x, door_left.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
         screen.blit(hp, (10, 10))
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
-        if count == 112:
+        if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
@@ -663,4 +713,4 @@ def room7():
 
 a = randint(0, 2)
 b = randint(0, 1)
-room1()
+room0()

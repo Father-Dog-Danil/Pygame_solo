@@ -5,8 +5,10 @@ class Hero(pygame.sprite.Sprite):
     def __init__(self, speed, list1, size, walk, FPS):
         pygame.sprite.Sprite.__init__(self)
         self.w, self.h = 55, 130
-        self.x = self.wall_x = 8
-        self.y = self.wall_y = 8
+        self.x = size[0] // 2 - self.w // 2
+        self.wall_x = 8
+        self.y = size[1] // 2 - self.h // 2
+        self.wall_y = 8
         self.image = pygame.Surface((self.w, self.h))
         self.image = list1[0]
         self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
