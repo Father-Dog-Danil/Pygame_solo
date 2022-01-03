@@ -16,6 +16,7 @@ from enemy import Mushroom, Log1, Log2, Cockroach1
 from NPC import Npc
 from torch import Torch
 from sprite import *
+from lose import Lose
 pygame.init()
 
 
@@ -206,7 +207,9 @@ def room1():
                 hp = heart_list[hp_count]
                 sound_damage.play()
             if hp_count == 3:
-                sys.exit()
+                run = 0
+                pygame.mixer.music.set_volume(0)
+                c = Lose()
         if door_right.collide():
             run = 0
             hero.x = 60
@@ -253,7 +256,9 @@ def room2():
                 hp = heart_list[hp_count]
                 sound_damage.play()
             if hp_count == 3:
-                sys.exit()
+                run = 0
+                pygame.mixer.music.set_volume(0)
+                c = Lose()
         if door_right.collide():
             run = 0
             hero.x = 60
@@ -310,7 +315,7 @@ def room3():
                 hp = heart_list[hp_count]
                 sound_damage.play()
             if hp_count == 3:
-                sys.exit()
+                c = Lose()
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
         if door_left.collide():
@@ -480,7 +485,9 @@ def room6():
                 hp = heart_list[hp_count]
                 sound_damage.play()
             if hp_count == 3:
-                sys.exit()
+                run = 0
+                pygame.mixer.music.set_volume(0)
+                c = Lose()
         text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -492,7 +499,9 @@ def room6():
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
             if hp_count == 3:
-                sys.exit()
+                run = 0
+                pygame.mixer.music.set_volume(0)
+                c = Lose()
         if door_right.collide():
             run = 0
             hero.x = 60
@@ -539,7 +548,9 @@ def room7():
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
             if hp_count == 3:
-                sys.exit()
+                run = 0
+                pygame.mixer.music.set_volume(0)
+                c = Lose()
         if door_left.collide():
             run = 0
             hero.x = size[0] - 100
@@ -579,7 +590,9 @@ def room8():
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
             if hp_count == 3:
-                sys.exit()
+                run = 0
+                pygame.mixer.music.set_volume(0)
+                c = Lose()
         if door_right.collide():
             run = 0
             hero.x = 60

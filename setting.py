@@ -8,6 +8,6 @@ speed_log = 150 / FPS
 speed_cockroach = 450 / FPS
 speed_log2 = 300 / FPS
 size = (1280, 720)
-damage = 0
+damage = 1
 volume = 1
 mode = [pygame.FULLSCREEN, 0][0]
