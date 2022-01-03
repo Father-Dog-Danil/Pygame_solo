@@ -1,9 +1,14 @@
 import pygame
 import sys
+pygame.init()
 
 
 class Menu:
-    def __init__(self, size):
+    def __init__(self):
+        size = (400, 400)
+        pygame.mixer.music.load('data/SOUNDS/menu.mp3')
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.play(-1)
         self.play_button_list = [
             pygame.image.load('data/IMAGE_GAME/IMAGE_BUTTON/play_button1.png'),
             pygame.image.load('data/IMAGE_GAME/IMAGE_BUTTON/play_button2.png'),
@@ -58,5 +63,4 @@ class Menu:
 
             pygame.display.update()
 
-
-a = Menu((400, 400))
+r = Menu()

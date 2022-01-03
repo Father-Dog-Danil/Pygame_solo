@@ -12,7 +12,7 @@ class Key:
             self.flag = 0
             self.key_invent = False
             self.sound_key.play()
-            self.x, self.y = 1200, 10
+            self.x, self.y = 1100, 15
 
 
 class Door:

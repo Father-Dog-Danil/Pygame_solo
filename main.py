@@ -1,11 +1,21 @@
-import sys
+from menu import *
 import pygame
+from setting import *
+
+
+screen = pygame.display.set_mode(size, mode)
+l = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/loading.png')
+screen.blit(l, (0, 0))
+pygame.display.update()
+
+import sys
 from door_key import Key, Door
 from random import randint
 from hero import Hero
 from enemy import Mushroom, Log1, Log2, Cockroach1
 from NPC import Npc
 from torch import Torch
+from sprite import *
 pygame.init()
 
 
@@ -15,7 +25,7 @@ class Portal:
         self.sprite_list_anime = anime
         self.list_anime_tp = anime_tp
         self.x, self.y = x, y
-        self.rect = (self.x, self.y, 160, 160)
+        self.rect = (self.x + 100, self.y + 100, 150, 150)
         self.count1 = 0
         self.count2 = 1
         self.sprite = sprite[0]
@@ -41,189 +51,19 @@ class Portal:
         self.sprite = self.list_anime_tp[self.count1 // self.cof]
         self.count1 += 1
 
-
-pygame.mixer.music.load('data/SOUNDS/sound_bg1.ogg')
-pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.load('data/SOUNDS/bg.mp3')
+pygame.mixer.music.set_volume(volume)
 pygame.mixer.music.play(-1)
 sound_win_level = pygame.mixer.Sound('data/SOUNDS/WIN_LEVEL.mp3')
 sound_tp = pygame.mixer.Sound('data/SOUNDS/tp.mp3')
 sound_damage = pygame.mixer.Sound('data/SOUNDS/DAMAGE.mp3')
 all_sprites = pygame.sprite.Group()
-size = (1280, 720)
-screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
-
-mushroom_enemy_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED7.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED8.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED9.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED10.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED11.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED12.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/RED13.png')]
-
-log_enemy_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D1.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D2.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D3.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D4.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D5.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_Y_D6.png').convert()]
-
-cockroach_walk_up = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_WALK1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_WALK2.png')]
-
-cockroach_sniffs_up = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_UP_SNIFFS7.png')]
-
-cockroach_walk_down = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_WALK1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_WALK2.png')]
-
-cockroach_sniffs_down = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS7.png')]
-
-
-log_enemy_list_y = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R1.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R2.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R3.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R4.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R5.png').convert(),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R6.png').convert()]
-
-heart_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART4.png')]
-
-padlock = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PADLOCK.png')
-bg = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/MAP2.png').convert()
-bg_house = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE1.png').convert()
-bg_dung = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3.png').convert()
-bg_dung_p = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE4.png').convert()
-bg_house_shadow = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE2.png')
-key_sprite = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/KEY.png')
-
-passage_list = [pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/DOOR1.png'),
-                pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/DOOR2.png'),
-                pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/DOOR3.png'),
-                pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/DOOR4.png')]
-
-npc_list1 = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC6.png')]
-
-npc_anime_list1 = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME7.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME8.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/NPC_ANIME9.png')]
-
-torch_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH7.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/TORCH4.png')]
-
-ball_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_7.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_8.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_9.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_10.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_11.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_12.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_13.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_14.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_15.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_16.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_17.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_18.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_19.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_20.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_21.png')]
-
-portal_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL5.png')]
-
-portal_tp_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_5.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_6.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_7.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_8.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_9.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_10.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_10.png')]
-
-portal_list_anime = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME4.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME5.png')]
-
-hero_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus3.png')]
-
-hero_walk_list = [
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus_walk1.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus_walk2.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus_walk3.png'),
-    pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus_walk4.png')]
+sound_tp.set_volume(volume)
+sound_damage.set_volume(volume)
 
 hp_count = 0
-FPS = 200
-SPEED = 2000 / FPS
-hero = Hero(SPEED, hero_list, size, hero_walk_list, FPS)
+hero = Hero(speed_hero, hero_list, size, hero_walk_list, FPS)
 clock = pygame.time.Clock()
-speed_mushroom = 210 / FPS
 run = 1
 mushroom_w = 70
 
@@ -244,10 +84,7 @@ mushroom4 = Mushroom(size[0] // 2, size[1] // 2, size[1] // 2 - mushroom_w, spee
 mushroom5 = Mushroom(size[0] - size[0] // 4, 0, size[1] - mushroom_w, speed_mushroom * 2, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
 torch1 = Torch(size[0] // 2 - 40, size[1] // 2 - 120, torch_list)
-portal1 = Portal(100, 100, portal_list, portal_list_anime, portal_tp_list)
-speed_log = 150 / FPS
-speed_cockroach = 350 / FPS
-speed_log2 = 300 / FPS
+portal1 = Portal(0, 0, portal_list, portal_list_anime, portal_tp_list)
 coridor_log = 300
 
 log1 = Log1(size[0] - 205 * 1, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
@@ -299,8 +136,7 @@ timer = 0
 font = pygame.font.Font(None, 68)
 font3 = pygame.font.Font(None, 68)
 font2 = pygame.font.Font(None, 30)
-key1 = Key(30, size[1] - 100, key_sound, hero)
-damage = 0
+key1 = Key(size[0] // 2 - 30, size[1] // 2 - 30, key_sound, hero)
 count_ball = 0
 key2 = Key(size[0] - 100, size[1] - 160, key_sound, hero)
 dialog = ['О! пришёл!', 'кто я такой?', 'не могу сказать...', 'они уже близко,', 'прыгай в портал!']
@@ -312,6 +148,7 @@ count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
 event = 0
 flag_time = 0
 count = 0
+flag_music = 1
 
 
 def room0():
@@ -539,9 +376,7 @@ def room4():
             elif npc.flag2 == 5:
                 run = 0
                 hero.x, hero.h = size[0] // 2 - 55 // 2, size[1] - 300
-                pygame.mixer.music.load('data/SOUNDS/dung.mp3')
-                pygame.mixer.music.set_volume(0.1)
-                pygame.mixer.music.play(-1)
+                hero.h = 130
                 room5()
             if 1 in keys:
                 hero.move(keys)
@@ -581,8 +416,14 @@ def room4():
 
 
 def room5():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, flag_music
     run = 1
+    if flag_music:
+        pygame.mixer.music.load('data/SOUNDS/dung.mp3')
+        pygame.mixer.music.set_volume(volume)
+        pygame.mixer.music.play(-1)
+        door_up.c = 2
+    flag_music = 0
     while run:
         time_count = pygame.time.get_ticks()
         text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
@@ -593,6 +434,11 @@ def room5():
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
+        if not key1.key_invent:
+            if door_up.collide():
+                run = 0
+                hero.y = size[1] - 160
+                room0()
         if door_left.collide():
             run = 0
             hero.x = size[0] - 100
@@ -605,6 +451,7 @@ def room5():
         screen.blit(text, (150, 10))
         screen.blit(door_right.sprite, (door_right.x, door_right.y))
         screen.blit(door_left.sprite, (door_left.x, door_left.y))
+        screen.blit(door_up.sprite, (door_up.x, door_up.y))
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
@@ -650,9 +497,14 @@ def room6():
             run = 0
             hero.x = 60
             room5()
+        elif door_left.collide():
+            run = 0
+            hero.x = size[0] - 100
+            room8()
         screen.blit(bg_dung, (0, 0))
         screen.blit(text, (150, 10))
         screen.blit(door_right.sprite, (door_right.x, door_right.y))
+        screen.blit(door_left.sprite, (door_left.x, door_left.y))
         cockroach1.list.update(time_count)
         cockroach1.list.draw(screen)
         keys = pygame.key.get_pressed()
@@ -710,6 +562,47 @@ def room7():
         clock.tick(FPS)
         pygame.display.update()
 
+
+def room8():
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    run = 1
+    while run:
+        time_count = pygame.time.get_ticks()
+        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = 0
+            elif event.type == pygame.QUIT:
+                sys.exit()
+        hero.render()
+        if hp_count < 3 and timer < time_count:
+            timer = time_count + 500
+            if hp_count == 3:
+                sys.exit()
+        if door_right.collide():
+            run = 0
+            hero.x = 60
+            room6()
+        screen.blit(bg_dung, (0, 0))
+        screen.blit(text, (150, 10))
+        screen.blit(door_right.sprite, (door_right.x, door_right.y))
+        keys = pygame.key.get_pressed()
+        if 1 in keys:
+            hero.move(keys)
+        screen.blit(hp, (10, 10))
+        count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
+        if count == 336:
+            count = 0
+        key1.collide()
+        screen.blit(ball_list[count // 16], (size[0] - 100, 10))
+        count += 1
+        screen.blit(count_ball_text, (size[0] - 50, 10))
+        screen.blit(hero.image, (hero.x, hero.y))
+        screen.blit(key_sprite, (key1.x, key1.y))
+        pygame.display.set_caption(f'{clock.get_fps()}')
+        clock.tick(FPS)
+        pygame.display.update()
 
 a = randint(0, 2)
 b = randint(0, 1)

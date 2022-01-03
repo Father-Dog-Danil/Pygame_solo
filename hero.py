@@ -20,11 +20,11 @@ class Hero(pygame.sprite.Sprite):
         self.cof = int(FPS * 0.3)
 
     def move(self, keys):
-        if keys[pygame.K_s] and not self.y > self.size[1] - 135:
+        if keys[pygame.K_s] and not self.y > self.size[1] - 140:
             self.y += self.speed
         elif keys[pygame.K_w] and not self.y < self.wall_y + 5:
             self.y -= self.speed
-        if keys[pygame.K_d] and not self.x > self.size[0] - 60:
+        if keys[pygame.K_d] and not self.x > self.size[0] - 65:
             self.x += self.speed
         elif keys[pygame.K_a] and not self.x < self.wall_x + 5:
             self.x -= self.speed
