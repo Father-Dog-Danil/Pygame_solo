@@ -244,3 +244,65 @@ class Cockroach1(pygame.sprite.Sprite):
                 self.count = 0
             self.image = self.sniffs_u[self.count // self.cof2]
             self.count += 1
+
+
+class Spider(pygame.sprite.Sprite):
+    def __init__(self, x, y, speed, sprite_list, sprite_kill, list1):
+        self.sprite_list = sprite_list
+        self.sprite_kill = sprite_kill
+        self.list = list1
+        self.w, self.h = 600, 1000
+        super().__init__(self.list)
+        self.x = x
+        self.y = y
+        self.add(self.list)
+        self.image = pygame.Surface((self.w, self.h))
+        self.image = sprite_list[0]
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+        self.speed = speed
+        self.flag = 0
+        self.count = 0
+        self.flag1 = 1
+        self.cof2 = 20
+
+    def move(self):
+        self.image = pygame.Surface((self.w, self.h))
+        self.image = self.image
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+
+    def render1(self):
+        if self.count >= int(len(self.sprite_list) * self.cof2):
+            self.count = 0
+        self.flag1 = 0
+        self.image = self.sprite_list[self.count // self.cof2]
+        self.count += 1
+
+    def render2(self):
+        if self.count >= int(len(self.sprite_kill) * self.cof2):
+            self.count = 0
+            self.flag = 1
+        self.flag1 = 0
+        self.image = self.sprite_kill[self.count // self.cof2]
+        self.count += 1
+
+
+class Stone(pygame.sprite.Sprite):
+    def __init__(self, x, image, list1, speed):
+        self.list = list1
+        super().__init__(self.list)
+        self.x = x
+        self.speed = speed
+        self.spr = image
+        self.y = randint(5, 625)
+        self.w, self.h = 100, 100
+        self.image = pygame.Surface((self.w, self.h))
+        self.image = self.image
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+        self.image = image
+
+    def update(self, speed):
+        self.speed = speed
+        self.x -= self.speed
+        self.image = pygame.Surface((self.w, self.h))
+        self.image = self.spr
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)

@@ -32,6 +32,23 @@ class Hero(pygame.sprite.Sprite):
         self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
         self.render_walk()
 
+    def move_boss(self, keys):
+        if keys[pygame.K_s] and not self.y > self.size[1] - 140:
+            self.y += self.speed
+            return 2
+        elif keys[pygame.K_w] and not self.y < self.wall_y + 5:
+            self.y -= self.speed
+            return 2
+        if keys[pygame.K_d] and not self.x > self.size[0] - 65:
+            self.image = pygame.Surface((self.w, self.h))
+            self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+            self.render_walk()
+            return 1
+        self.image = pygame.Surface((self.w, self.h))
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+        self.render_walk()
+        return 0
+
     def render(self):
         if self.count >= len(self.image_hero_list) * self.cof:
             self.count = 0
@@ -59,3 +76,8 @@ class Hero(pygame.sprite.Sprite):
             return True
         else:
             return False
+
+    def f(self):
+        self.image = pygame.Surface((self.w, self.h))
+        self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+        self.render_walk()

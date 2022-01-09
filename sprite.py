@@ -42,15 +42,29 @@ cockroach_sniffs_down = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS6.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/COCKROACH_DOWN_SNIFFS7.png')]
 
+spider_sprites = [
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER1.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER2.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER3.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER4.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER5.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER6.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER7.png')]
+
+spider_kill_sprites = [
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL1.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL2.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL3.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL4.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL5.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL6.png'),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/SPIDER_KILL7.png')]
 
 heart_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART1.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART2.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART3.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HEART4.png')]
-
-padlock = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PADLOCK.png')
-bg_house_shadow = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE2.png')
 key_sprite = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/KEY.png')
 
 passage_list = [pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/DOOR1.png'),
@@ -109,14 +123,21 @@ ball_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_20.png'),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/ball_21.png')]
 
-portal_list = [
+portal_list1 = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL1.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL2.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL3.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL4.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL5.png').convert()]
 
-portal_tp_list = [
+portal_list2 = [
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_PORTAL1.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_PORTAL2.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_PORTAL3.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_PORTAL4.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_PORTAL5.png').convert()]
+
+portal_tp_list1 = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_1.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_2.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_3.png').convert(),
@@ -125,12 +146,28 @@ portal_tp_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_6.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_TP_7.png').convert()]
 
-portal_list_anime = [
+portal_tp_list2 = [
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP1.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP2.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP3.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP4.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP5.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP6.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_TP7.png').convert()]
+
+portal_list_anime1 = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME1.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME2.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME3.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME4.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/PORTAL_ANIME5.png').convert()]
+
+portal_list_anime2 = [
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_SPAWN1.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_SPAWN2.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_SPAWN3.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_SPAWN4.png').convert(),
+    pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3_ANIM_SPAWN5.png').convert()]
 
 hero_list = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus1.png'),
@@ -161,3 +198,10 @@ bg = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/MAP2.png').convert()
 bg_house = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE1.png').convert()
 bg_dung = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3.png').convert()
 bg_dung_p = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE4.png').convert()
+bg_bibl = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE5.png').convert()
+bg_dung_p_blood = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE6.png').convert()
+bg_dung_blood = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE7.png').convert()
+bg_boss = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/BOSS_BG.png').convert()
+note_image1 = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/note1.png')
+note_image2 = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/note2.png')
+stone = pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/web.png')

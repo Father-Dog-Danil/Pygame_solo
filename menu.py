@@ -7,7 +7,7 @@ class Menu:
     def __init__(self):
         size = (400, 400)
         pygame.mixer.music.load('data/SOUNDS/menu.mp3')
-        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.set_volume(0.05)
         pygame.mixer.music.play(-1)
         self.play_button_list = [
             pygame.image.load('data/IMAGE_GAME/IMAGE_BUTTON/play_button1.png'),
@@ -62,5 +62,3 @@ class Menu:
                 self.cursor_exit = 1
 
             pygame.display.update()
-
-r = Menu()
