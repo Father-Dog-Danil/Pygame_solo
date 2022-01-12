@@ -1,9 +1,10 @@
+import pygame
 from menu import Menu
 from setting import *
 
 
 r = Menu()
-screen = pygame.display.set_mode(size, mode)
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 q = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/loading.png')
 screen.blit(q, (0, 0))
 pygame.display.update()
@@ -133,9 +134,18 @@ count = 0
 flag_music = 1
 
 
+def save(c):
+    f = open('data/test.txt', 'r')
+    old_data = f.read()
+    new_data = old_data.replace(old_data, str(c))
+    f = open('data/test.txt', 'w')
+    f.write(new_data)
+
+
 def room0():
     global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
     run = 1
+    save(0)
     while run:
         time_count = pygame.time.get_ticks()
         text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
@@ -405,6 +415,7 @@ def room4():
 def room5():
     global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, flag_music
     run = 1
+    save(1)
     if flag_music:
         pygame.mixer.music.load('data/SOUNDS/dung.mp3')
         pygame.mixer.music.set_volume(volume)
@@ -715,6 +726,7 @@ stone21 = Stone(7600, stone, stone_boss, hero.speed)
 
 def room_boss():
     global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    save(2)
     run = 1
     pygame.mixer.music.load('data/SOUNDS/boss.mp3')
     pygame.mixer.music.set_volume(volume)
@@ -787,6 +799,7 @@ def room_boss():
         else:
             SPIDER.render2()
         if door_right.collide():
+            save(0)
             run = 0
             pygame.mixer.music.set_volume(0)
             w = Win(text)
@@ -802,4 +815,11 @@ def room_boss():
         pygame.display.update()
 
 
-room0()
+f = open('data/test.txt', 'r')
+old_data = f.read()
+if old_data == '0':
+    room0()
+elif old_data == '1':
+    room5()
+elif old_data == '2':
+    room_boss()
