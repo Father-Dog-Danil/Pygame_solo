@@ -2,13 +2,11 @@ import pygame
 from menu import Menu
 from setting import *
 
-
 r = Menu()
-screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+screen = pygame.display.set_mode(size)
 q = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/loading.png')
 screen.blit(q, (0, 0))
 pygame.display.update()
-
 
 import sys
 from win import Win
@@ -21,7 +19,6 @@ from torch import Torch
 from sprite import *
 from lose import Lose
 from portal import Portal
-
 
 pygame.init()
 pygame.mixer.music.load('data/SOUNDS/bg.mp3')
@@ -47,7 +44,12 @@ list_log_room5 = pygame.sprite.Group()
 list_log_room6 = pygame.sprite.Group()
 boss_room = pygame.sprite.Group()
 stone_boss = pygame.sprite.Group()
+torch1 = Torch(size[0] // 2 - 40, size[1] // 2 - 120, torch_list)
+coridor_log = 300
+log_first = []
+log_second = []
 
+#  грибочки
 mushroom1 = Mushroom(size[0] // 4, size[1] // 2, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
 mushroom2 = Mushroom(0, size[1] // 2, 1220, speed_mushroom * 2, 'x', mushroom_enemy_list, list_mushroom_room1)
@@ -57,50 +59,35 @@ mushroom4 = Mushroom(size[0] // 2, size[1] // 2, size[1] // 2 - mushroom_w, spee
                      list_mushroom_room1)
 mushroom5 = Mushroom(size[0] - size[0] // 4, 0, size[1] - mushroom_w, speed_mushroom * 2, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
-torch1 = Torch(size[0] // 2 - 40, size[1] // 2 - 120, torch_list)
-coridor_log = 300
+#  брёвна второй комнаты
+for i in range(1, 5 + 1):
+    log_cr = Log1(size[0] - 205 * i, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
+    log_first.append(log_cr)
+for i in range(1, 5 + 1):
+    log_first.append(Log1(size[0] - 205 * i, coridor_log, size[1] - coridor_log - 55,
+                          speed_log, log_enemy_list, list_log_room2))
 
-log1 = Log1(size[0] - 205 * 1, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log2 = Log1(size[0] - 205 * 2, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log3 = Log1(size[0] - 205 * 3, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log4 = Log1(size[0] - 205 * 4, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log5 = Log1(size[0] - 205 * 5, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
+#  брёвна третьей комнаты
+list_log_coord = [(-400, 15 + 200 * 0, size[0] + 460), (-400, 15 + 245 * 2, size[0] + 460),
+                  (-950, 15 + 245 * 1, size[0] + 1010), (-1400, 15 + 200 * 0, size[0] + 1460),
+                  (-1400, 15 + 245 * 2, size[0] + 1460), (-1600, 15 + 245 * 1, size[0] + 1660)]
+for i in range(6):
+    log_second.append(Log2(*list_log_coord[i], speed_log2, log_enemy_list_y, list_log_room3))
 
-log6 = Log1(size[0] - 205 * 1, coridor_log, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log7 = Log1(size[0] - 205 * 2, coridor_log, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log8 = Log1(size[0] - 205 * 3, coridor_log, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log9 = Log1(size[0] - 205 * 4, coridor_log, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
-log10 = Log1(size[0] - 205 * 5, coridor_log, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
+#  создание таракашек
+cockroach_list = []
+for i in range(9):
+    cockroach_cre = Cockroach1(20 + 165 * i, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
+                               cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
+    cockroach_list.append(cockroach_cre)
 
-log11 = Log2(-400, 15 + 200 * 0, size[0] + 460, speed_log2, log_enemy_list_y, list_log_room3)
-log12 = Log2(-950, 15 + 245 * 1, size[0] + 1010, speed_log2, log_enemy_list_y, list_log_room3)
-log13 = Log2(-400, 15 + 245 * 2, size[0] + 460, speed_log2, log_enemy_list_y, list_log_room3)
-
-log14 = Log2(-1400, 15 + 200 * 0, size[0] + 1460, speed_log2, log_enemy_list_y, list_log_room3)
-log15 = Log2(-1400, 15 + 245 * 2, size[0] + 1460, speed_log2, log_enemy_list_y, list_log_room3)
-log16 = Log2(-1600, 15 + 245 * 1, size[0] + 1660, speed_log2, log_enemy_list_y, list_log_room3)
-
-cockroach1 = Cockroach1(20 + 165 * 0, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach2 = Cockroach1(20 + 165 * 1, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach3 = Cockroach1(20 + 165 * 2, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach4 = Cockroach1(20 + 165 * 3, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach5 = Cockroach1(20 + 165 * 4, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach6 = Cockroach1(20 + 165 * 5, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach7 = Cockroach1(20 + 165 * 6, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach8 = Cockroach1(20 + 165 * 7, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
-cockroach9 = Cockroach1(20 + 165 * 8, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
-                        cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
+#  создание паутинки
+stone = []
+for i in range(30):
+    stone_create = Stone((i + 1) * 300 - i * 15, stone_spr, stone_boss, hero.speed)
+    stone.append(stone_create)
 
 SPIDER = Spider(-300, 100, 0.1, spider_sprites, spider_kill_sprites, boss_room)
-
 
 door_right = Door(size[0] - 15, size[1] // 2 - 85, passage_list, 'y', hero)
 door_left = Door(0, size[1] // 2 - 85, passage_list, 'y', hero)
@@ -135,10 +122,10 @@ flag_music = 1
 
 
 def save(c):
-    f = open('data/test.txt', 'r')
+    f = open('data/floor.txt', 'r')
     old_data = f.read()
     new_data = old_data.replace(old_data, str(c))
-    f = open('data/test.txt', 'w')
+    f = open('data/floor.txt', 'w')
     f.write(new_data)
 
 
@@ -242,7 +229,7 @@ def room2():
         hero.render()
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
-            if hero.does_collide_enemy(log1.list):
+            if hero.does_collide_enemy(log_first[0].list):
                 hp_count += damage
                 hp = heart_list[hp_count]
                 sound_damage.play()
@@ -279,8 +266,8 @@ def room2():
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
         screen.blit(hero.image, (hero.x, hero.y))
-        log1.list.update()
-        log1.list.draw(screen)
+        log_first[0].list.update()
+        log_first[0].list.draw(screen)
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
         pygame.display.update()
@@ -301,7 +288,7 @@ def room3():
         hero.render()
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
-            if hero.does_collide_enemy(log11.list):
+            if hero.does_collide_enemy(log_second[0].list):
                 hp_count += damage
                 hp = heart_list[hp_count]
                 sound_damage.play()
@@ -324,8 +311,8 @@ def room3():
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
-        log11.list.update()
-        log11.list.draw(screen)
+        log_second[0].list.update()
+        log_second[0].list.draw(screen)
         screen.blit(hero.image, (hero.x, hero.y))
         pygame.display.set_caption(f'{clock.get_fps()}')
         key2.collide()
@@ -475,7 +462,7 @@ def room6():
         time_count = pygame.time.get_ticks()
         if hp_count < 3 and timer < time_count:
             timer = time_count + 500
-            if hero.does_collide_enemy(cockroach1.list):
+            if hero.does_collide_enemy(cockroach_list[0].list):
                 hp_count += damage
                 hp = heart_list[hp_count]
                 sound_damage.play()
@@ -509,8 +496,8 @@ def room6():
         screen.blit(text, (150, 10))
         screen.blit(door_right.sprite, (door_right.x, door_right.y))
         screen.blit(door_left.sprite, (door_left.x, door_left.y))
-        cockroach1.list.update(time_count)
-        cockroach1.list.draw(screen)
+        cockroach_list[0].list.update(time_count)
+        cockroach_list[0].list.draw(screen)
         keys = pygame.key.get_pressed()
         if 1 in keys:
             hero.move(keys)
@@ -701,29 +688,6 @@ def room9():
         pygame.display.update()
 
 
-stone1 = Stone(1000, stone, stone_boss, hero.speed)
-stone2 = Stone(2000, stone, stone_boss, hero.speed)
-stone3 = Stone(3000, stone, stone_boss, hero.speed)
-stone4 = Stone(3200, stone, stone_boss, hero.speed)
-stone5 = Stone(4000, stone, stone_boss, hero.speed)
-stone6 = Stone(4400, stone, stone_boss, hero.speed)
-stone7 = Stone(5500, stone, stone_boss, hero.speed)
-stone8 = Stone(4500, stone, stone_boss, hero.speed)
-stone9 = Stone(5700, stone, stone_boss, hero.speed)
-stone10 = Stone(5900, stone, stone_boss, hero.speed)
-stone11 = Stone(6500, stone, stone_boss, hero.speed)
-stone12 = Stone(1260, stone, stone_boss, hero.speed)
-stone13 = Stone(1700, stone, stone_boss, hero.speed)
-stone14 = Stone(2400, stone, stone_boss, hero.speed)
-stone15 = Stone(2860, stone, stone_boss, hero.speed)
-stone16 = Stone(1500, stone, stone_boss, hero.speed)
-stone17 = Stone(3600, stone, stone_boss, hero.speed)
-stone18 = Stone(6700, stone, stone_boss, hero.speed)
-stone19 = Stone(7100, stone, stone_boss, hero.speed)
-stone20 = Stone(7300, stone, stone_boss, hero.speed)
-stone21 = Stone(7600, stone, stone_boss, hero.speed)
-
-
 def room_boss():
     global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
     save(2)
@@ -757,10 +721,10 @@ def room_boss():
                 a = 1
                 if hero.move_boss(keys) == 1 and b:
                     x_screen -= hero.speed
-                    stone1.list.update(hero.speed)
+                    stone[0].list.update(hero.speed)
                 elif hero.move_boss(keys) == 2 and b:
                     x_screen -= hero.speed
-                    stone1.list.update(hero.speed)
+                    stone[0].list.update(hero.speed)
             else:
                 hero.move(keys)
                 screen.blit(door_right.sprite, (door_right.x, door_right.y))
@@ -779,7 +743,7 @@ def room_boss():
         if 1:
             if v:
                 hero.speed = n
-            if hero.does_collide_enemy(stone1.list):
+            if hero.does_collide_enemy(stone[0].list):
                 v = 1
                 hero.speed = hero.speed / 2
                 #  sound_damage.play()
@@ -803,7 +767,7 @@ def room_boss():
             run = 0
             pygame.mixer.music.set_volume(0)
             w = Win(text)
-        stone1.list.draw(screen)
+        stone[0].list.draw(screen)
         SPIDER.list.draw(screen)
         screen.blit(text, (150, 10))
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
@@ -815,7 +779,7 @@ def room_boss():
         pygame.display.update()
 
 
-f = open('data/test.txt', 'r')
+f = open('data/floor.txt', 'r')
 old_data = f.read()
 if old_data == '0':
     room0()
