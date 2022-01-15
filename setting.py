@@ -11,4 +11,4 @@ speed_spider = 580 / FPS
 size = (1280, 720)
 damage = 1
 volume = 0.1
-mode = [pygame.FULLSCREEN, 0][0]
+mode = [pygame.FULLSCREEN, 0][1]

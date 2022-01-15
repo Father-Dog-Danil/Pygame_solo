@@ -204,4 +204,4 @@ bg_dung_blood = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE7.png').conver
 bg_boss = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/BOSS_BG.png').convert()
 note_image1 = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/note1.png')
 note_image2 = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/note2.png')
-stone = pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/web.png')
+stone_spr = pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/web.png')

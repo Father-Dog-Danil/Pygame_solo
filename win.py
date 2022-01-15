@@ -44,5 +44,5 @@ class Win:
             screen.blit(image, (-10, -10))
             screen.blit(self.image, (170, 200 - 130 // 2))
             screen.blit(text, (25, 10))
-            screen.blit(time, (158, 300))
+            screen.blit(time, (160, 300))
             clock.tick(60)

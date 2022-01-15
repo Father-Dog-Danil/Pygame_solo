@@ -1,11 +1,10 @@
-import pygame
 from menu import Menu
 from setting import *
 
 r = Menu()
-screen = pygame.display.set_mode(size)
-q = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/loading.png')
-screen.blit(q, (0, 0))
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
+loading = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/loading.png')
+screen.blit(loading, (0, 0))
 pygame.display.update()
 
 import sys
@@ -21,6 +20,7 @@ from lose import Lose
 from portal import Portal
 
 pygame.init()
+time_start = -pygame.time.get_ticks()
 pygame.mixer.music.load('data/SOUNDS/bg.mp3')
 pygame.mixer.music.set_volume(volume)
 pygame.mixer.music.play(-1)
@@ -30,7 +30,7 @@ all_sprites = pygame.sprite.Group()
 sound_tp.set_volume(volume)
 sound_damage.set_volume(volume)
 
-hp_count = 0
+
 hero = Hero(speed_hero, hero_list, size, hero_walk_list, FPS)
 clock = pygame.time.Clock()
 run = 1
@@ -96,6 +96,8 @@ door_up2 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
 
 key_sound = pygame.mixer.Sound('data/SOUNDS/KEY2.mp3')
 note_sound = pygame.mixer.Sound('data/SOUNDS/note.mp3')
+hp_file = open('data/heart.txt', 'r')
+hp_count = int(hp_file.read())
 hp = heart_list[hp_count]
 timer = 0
 font = pygame.font.Font(None, 68)
@@ -113,7 +115,8 @@ portal1 = Portal(0, 0, portal_list1, portal_list_anime1, portal_tp_list1, npc, F
 portal2 = Portal(0, 0, portal_list2, portal_list_anime2, portal_tp_list2, npc2, FPS)
 time_count = pygame.time.get_ticks()
 pygame.mouse.set_visible(False)
-text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+text = font.render(str((time_count - time_start) // 1000 // 60) + ':' +
+                   str((time_count - time_start) // 1000 % 60), True, (255, 255, 255))
 count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
 event = 0
 flag_time = 0
@@ -122,11 +125,23 @@ flag_music = 1
 
 
 def save(c):
-    f = open('data/floor.txt', 'r')
-    old_data = f.read()
-    new_data = old_data.replace(old_data, str(c))
-    f = open('data/floor.txt', 'w')
-    f.write(new_data)
+    f1 = open('data/floor.txt', 'r')
+    old1 = f1.read()
+    new_data1 = old1.replace(old1, str(c))
+    f1 = open('data/floor.txt', 'w')
+    f1.write(new_data1)
+
+    f2 = open('data/time.txt', 'r')
+    old2 = f2.read()
+    new_data2 = old2.replace(old2, str(pygame.time.get_ticks() + time_plus))
+    f2 = open('data/time.txt', 'w')
+    f2.write(new_data2)
+
+    f3 = open('data/heart.txt', 'r')
+    old3 = f3.read()
+    new_data3 = old3.replace(old3, str(hp_count))
+    f3 = open('data/heart.txt', 'w')
+    f3.write(new_data3)
 
 
 def room0():
@@ -135,7 +150,8 @@ def room0():
     save(0)
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -171,7 +187,8 @@ def room1():
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -219,7 +236,8 @@ def room2():
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -278,7 +296,8 @@ def room3():
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -327,7 +346,8 @@ def room4():
     pygame.mixer.music.set_volume(0)
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -410,7 +430,8 @@ def room5():
     flag_music = 0
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -470,7 +491,8 @@ def room6():
                 run = 0
                 pygame.mixer.music.set_volume(0)
                 c = Lose(text)
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -519,7 +541,8 @@ def room7():
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -567,7 +590,8 @@ def room8():
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -616,7 +640,8 @@ def room9():
     pygame.mixer.music.set_volume(0)
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -637,7 +662,6 @@ def room9():
                 screen.blit(portal2.sprite, (portal2.x, portal2.y))
             elif npc2.flag2 == 3:
                 portal2.render2()
-                # PORTAL EXIT
                 screen.blit(portal2.sprite, (portal2.x, portal2.y))
                 if hero.does_collide(portal2.rect):
                     npc2.flag2 = 4
@@ -704,7 +728,8 @@ def room_boss():
     x_screen = 0
     while run:
         time_count = pygame.time.get_ticks()
-        text = font.render(str(time_count // 1000 // 60) + ':' + str(time_count // 1000 % 60), True, (255, 255, 255))
+        text = font.render(str((time_count + time_plus) // 1000 // 60) + ':' +
+                           str((time_count + time_plus) // 1000 % 60), True, (255, 255, 255))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -781,9 +806,12 @@ def room_boss():
 
 f = open('data/floor.txt', 'r')
 old_data = f.read()
+time_file = open('data/time.txt', 'r')
+time_p = int(time_file.read())
+time_plus = time_start + time_p
 if old_data == '0':
     room0()
 elif old_data == '1':
-    room5()
+    room4()
 elif old_data == '2':
-    room_boss()
+    room9()
