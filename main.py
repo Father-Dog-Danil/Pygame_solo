@@ -95,6 +95,7 @@ door_up1 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
 door_up2 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
 
 key_sound = pygame.mixer.Sound('data/SOUNDS/KEY2.mp3')
+key_sound.set_volume(volume)
 note_sound = pygame.mixer.Sound('data/SOUNDS/note.mp3')
 hp_file = open('data/heart.txt', 'r')
 hp_count = int(hp_file.read())

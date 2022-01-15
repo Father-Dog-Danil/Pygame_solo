@@ -1,4 +1,5 @@
 import pygame
+from setting import *
 pygame.init()
 
 
@@ -6,6 +7,7 @@ class Lose:
     def __init__(self, time):
         pygame.mouse.set_visible(True)
         sound_lose = pygame.mixer.Sound('data/SOUNDS/LOSE.mp3')
+        sound_lose.set_volume(volume)
         sound_lose.play()
         image = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/MAP2.png')
         lose = pygame.image.load('data/IMAGE_GAME/IMAGE_HERO_D/anonimus_lie1.png')

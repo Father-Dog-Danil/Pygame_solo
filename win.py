@@ -1,5 +1,5 @@
 import sys
-
+from setting import *
 import pygame
 pygame.init()
 
@@ -7,8 +7,9 @@ pygame.init()
 class Win:
     def __init__(self, time):
         pygame.mouse.set_visible(True)
-        sound_lose = pygame.mixer.Sound('data/SOUNDS/win.mp3')
-        sound_lose.play()
+        sound_win = pygame.mixer.Sound('data/SOUNDS/win.mp3')
+        sound_win.set_volume(volume)
+        sound_win.play()
         run = 1
         image = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/MAP2.png')
         self.sprite_list = [
