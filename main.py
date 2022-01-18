@@ -60,11 +60,11 @@ mushroom4 = Mushroom(size[0] // 2, size[1] // 2, size[1] // 2 - mushroom_w, spee
 mushroom5 = Mushroom(size[0] - size[0] // 4, 0, size[1] - mushroom_w, speed_mushroom * 2, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
 #  брёвна второй комнаты
-for i in range(1, 5 + 1):
-    log_cr = Log1(size[0] - 205 * i, 0, size[1] - coridor_log - 55, speed_log, log_enemy_list, list_log_room2)
+for i in range(2, 5 + 1):
+    log_cr = Log1(size[0] - 210 * i, 15, size[1] - coridor_log - 70, speed_log, log_enemy_list, list_log_room2)
     log_first.append(log_cr)
-for i in range(1, 5 + 1):
-    log_first.append(Log1(size[0] - 205 * i, coridor_log, size[1] - coridor_log - 55,
+for i in range(2, 5 + 1):
+    log_first.append(Log1(size[0] - 210 * i, coridor_log + 15, size[1] - coridor_log - 70,
                           speed_log, log_enemy_list, list_log_room2))
 
 #  брёвна третьей комнаты
