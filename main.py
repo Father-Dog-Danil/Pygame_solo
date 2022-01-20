@@ -145,6 +145,20 @@ def save(c):
     f3.write(new_data3)
 
 
+def save_win():
+    f2 = open('data/time.txt', 'r')
+    old2 = f2.read()
+    new_data2 = old2.replace(old2, str(0))
+    f2 = open('data/time.txt', 'w')
+    f2.write(new_data2)
+
+    f3 = open('data/heart.txt', 'r')
+    old3 = f3.read()
+    new_data3 = old3.replace(old3, str(0))
+    f3 = open('data/heart.txt', 'w')
+    f3.write(new_data3)
+
+
 def room0():
     global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
     run = 1
@@ -790,6 +804,7 @@ def room_boss():
             SPIDER.render2()
         if door_right.collide():
             save(0)
+            save_win()
             run = 0
             pygame.mixer.music.set_volume(0)
             w = Win(text)
@@ -802,7 +817,7 @@ def room_boss():
         screen.blit(hp, (10, 10))
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
-        pygame.display.update()
+        pygame.display.update([0, 0, 1280, 720])
 
 
 f = open('data/floor.txt', 'r')
