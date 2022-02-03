@@ -1,9 +1,9 @@
 import pygame
 
 
-FPS = 200
+FPS = 160
 speed_mushroom = 210 / FPS
-speed_hero = 600 / FPS
+speed_hero = 450 / FPS
 speed_log = 150 / FPS
 speed_cockroach = 450 / FPS
 speed_log2 = 300 / FPS

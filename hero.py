@@ -17,7 +17,7 @@ class Hero(pygame.sprite.Sprite):
         self.image_hero_list = list1
         self.image_hero_walk = walk
         self.count = 0
-        self.cof = int(FPS * 0.3)
+        self.cof = int(FPS * 0.1)
 
     def move(self, keys):
         if keys[pygame.K_s] and not self.y > self.size[1] - 140:
@@ -56,9 +56,9 @@ class Hero(pygame.sprite.Sprite):
         self.count += 1
 
     def render_walk(self):
-        if self.count >= len(self.image_hero_list) * 3:
+        if self.count >= len(self.image_hero_list) * 15:
             self.count = 0
-        self.image = self.image_hero_walk[self.count // 3]
+        self.image = self.image_hero_walk[self.count // 15]
         self.count += 1
 
     def does_collide_enemy(self, rect2):

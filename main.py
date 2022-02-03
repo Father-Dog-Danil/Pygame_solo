@@ -126,18 +126,21 @@ flag_music = 1
 
 
 def save(c):
+    #  сохраняем этаж
     f1 = open('data/floor.txt', 'r')
     old1 = f1.read()
     new_data1 = old1.replace(old1, str(c))
     f1 = open('data/floor.txt', 'w')
     f1.write(new_data1)
 
+    #  сохраняем время
     f2 = open('data/time.txt', 'r')
     old2 = f2.read()
     new_data2 = old2.replace(old2, str(pygame.time.get_ticks() + time_plus))
     f2 = open('data/time.txt', 'w')
     f2.write(new_data2)
 
+    #  сохраняем ХП
     f3 = open('data/heart.txt', 'r')
     old3 = f3.read()
     new_data3 = old3.replace(old3, str(hp_count))
@@ -178,7 +181,7 @@ def room0():
             run = 0
             hero.x = 60
             room1()
-        screen.blit(bg, (0, 0))
+        screen.blit(bg_0, (0, 0))
         screen.blit(text, (150, 10))
         screen.blit(door_right.sprite, (door_right.x, door_right.y))
         keys = pygame.key.get_pressed()

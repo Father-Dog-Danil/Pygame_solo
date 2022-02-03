@@ -195,6 +195,7 @@ log_enemy_list_y = [
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R5.png').convert(),
     pygame.image.load('data/IMAGE_GAME/IMAGE_ENEMY/LOG_X_R6.png').convert()]
 bg = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/MAP2.png').convert()
+bg_0 = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/MAP_0.png').convert()
 bg_house = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE1.png').convert()
 bg_dung = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE3.png').convert()
 bg_dung_p = pygame.image.load('data/IMAGE_GAME/IMAGE_MAP/HOUSE4.png').convert()
