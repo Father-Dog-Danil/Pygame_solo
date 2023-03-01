@@ -18,6 +18,7 @@ from torch import Torch
 from sprite import *
 from lose import Lose
 from portal import Portal
+from ball import Ball
 
 pygame.init()
 time_start = -pygame.time.get_ticks()
@@ -52,12 +53,14 @@ log_second = []
 #  грибочки
 mushroom1 = Mushroom(size[0] // 4, size[1] // 2, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
-mushroom2 = Mushroom(0, size[1] // 2, 1220, speed_mushroom * 2, 'x', mushroom_enemy_list, list_mushroom_room1)
-mushroom3 = Mushroom(size[0] // 2, 0, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
+mushroom2 = Mushroom(size[0] // 4, 0, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
-mushroom4 = Mushroom(size[0] // 2, size[1] // 2, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
+mushroom3 = Mushroom(0, size[1] // 2 - mushroom_w // 2, 1220, speed_mushroom * 2, 'x', mushroom_enemy_list, list_mushroom_room1)
+mushroom4 = Mushroom(size[0] // 2 - mushroom_w // 2, 0, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
-mushroom5 = Mushroom(size[0] - size[0] // 4, 0, size[1] - mushroom_w, speed_mushroom * 2, 'y', mushroom_enemy_list,
+mushroom5 = Mushroom(size[0] // 2 - mushroom_w // 2, size[1] // 2, size[1] // 2 - mushroom_w, speed_mushroom, 'y', mushroom_enemy_list,
+                     list_mushroom_room1)
+mushroom6 = Mushroom(size[0] - size[0] // 4, 0, size[1] - mushroom_w, speed_mushroom * 2, 'y', mushroom_enemy_list,
                      list_mushroom_room1)
 #  брёвна второй комнаты
 for i in range(2, 5 + 1):
@@ -76,7 +79,7 @@ for i in range(6):
 
 #  создание таракашек
 cockroach_list = []
-for i in range(9):
+for i in range(1, 7):
     cockroach_cre = Cockroach1(20 + 165 * i, 5, size[1] - 155, speed_cockroach, cockroach_walk_up,
                                cockroach_walk_down, list_log_room4, cockroach_sniffs_down, cockroach_sniffs_up)
     cockroach_list.append(cockroach_cre)
@@ -97,6 +100,7 @@ door_up2 = Door(size[0] // 2 - 174 // 2, 0, passage_list, 'x', hero)
 key_sound = pygame.mixer.Sound('data/SOUNDS/KEY2.mp3')
 key_sound.set_volume(volume)
 note_sound = pygame.mixer.Sound('data/SOUNDS/note.mp3')
+ZA_WARUDO = pygame.mixer.Sound('data/SOUNDS/ZA_WARUDO.mp3')
 hp_file = open('data/heart.txt', 'r')
 hp_count = int(hp_file.read())
 hp = heart_list[hp_count]
@@ -105,6 +109,8 @@ font = pygame.font.Font(None, 68)
 font3 = pygame.font.Font(None, 68)
 font2 = pygame.font.Font(None, 30)
 key1 = Key(size[0] - 200, size[1] // 2 - 30, key_sound, hero)
+ball1 = Ball(size[0] // 2 - 20, size[1] // 2 - 20, key_sound, hero)
+ball2 = Ball(size[0] // 2 - 20, size[1] // 2 - 20, key_sound, hero)
 note = Note(size[0] // 2 - 30, size[1] // 2 - 30, hero, note_sound)
 count_ball = 0
 key2 = Key(size[0] - 100, size[1] - 160, key_sound, hero)
@@ -123,6 +129,7 @@ event = 0
 flag_time = 0
 count = 0
 flag_music = 1
+room = 0
 
 
 def save(c):
@@ -162,6 +169,113 @@ def save_win():
     f3.write(new_data3)
 
 
+def pause():
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, time_plus
+    pygame.mouse.set_visible(True)
+    ZA_WARUDO.play()
+    time_in_pause = pygame.time.get_ticks()
+    exit_button = exit_button_list[0]
+    resume_button = resume_button_list[0]
+    music_button = music_button_list[0]
+    cursor_resume = 1
+    cursor_exit = 1
+    cursor_music = 1
+    count = 0
+    w, h = 306, 64
+    resume_button_coordinate = (size[0] // 2 - 200 + 47, size[1] // 2 - 150 + 26)
+    music_button_coordinate = (size[0] // 2 - 200 + 47, size[1] // 2 - 150 + 64 + 26 * 2)
+    exit_button_coordinate = (size[0] // 2 - 200 + 47, size[1] // 2 - 150 + 128 + 26 * 3)
+    while run:
+        x, y = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    time_plus -= pygame.time.get_ticks() - time_in_pause
+                    pygame.mouse.set_visible(False)
+                    if room == 0:
+                        room0()
+                    elif room == 1:
+                        room1()
+                    elif room == 2:
+                        room2()
+                    elif room == 3:
+                        room3()
+                    elif room == 4:
+                        room4()
+                    elif room == 5:
+                        room5()
+                    elif room == 6:
+                        room6()
+                    elif room == 7:
+                        room7()
+                    elif room == 8:
+                        room8()
+                    elif room == 9:
+                        room9()
+                    elif room == 10:
+                        room_boss()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    cursor_resume = 0
+                    cursor_exit = 0
+                    cursor_music = 0
+        if size[0] // 2 - 200 + 47 + 306 > x > size[0] // 2 - 200 + 47:
+            if size[1] // 2 - 150 + 26 + 64 > y > size[1] // 2 - 150 + 26:
+                if cursor_resume:
+                    resume_button = resume_button_list[1]
+                else:
+                    resume_button = resume_button_list[2]
+                    time_plus -= pygame.time.get_ticks() - time_in_pause
+                    pygame.mouse.set_visible(False)
+                    if room == 0:
+                        room0()
+                    elif room == 1:
+                        room1()
+                    elif room == 2:
+                        room2()
+                    elif room == 3:
+                        room3()
+                    elif room == 4:
+                        room4()
+                    elif room == 5:
+                        room5()
+                    elif room == 6:
+                        room6()
+                    elif room == 7:
+                        room7()
+                    elif room == 8:
+                        room8()
+                    elif room == 9:
+                        room9()
+                    elif room == 10:
+                        room_boss()
+            elif size[1] // 2 - 150 + 26 * 2 + 64 * 2 > y > size[1] // 2 - 150 + 26 * 2 + 64:
+                if cursor_music:
+                    music_button = music_button_list[1]
+                else:
+                    music_button = music_button_list[2]
+            elif size[1] // 2 - 150 + 26 * 3 + 64 * 3 > y > size[1] // 2 - 150 + 26 * 3 + 64 * 2:
+                if cursor_exit:
+                    exit_button = exit_button_list[1]
+                else:
+                    exit_button = exit_button_list[2]
+                    sys.exit()
+            else:
+                resume_button = resume_button_list[0]
+                music_button = music_button_list[0]
+                exit_button = exit_button_list[0]
+                cursor_resume = 1
+                cursor_music = 1
+                cursor_exit = 1
+        screen.blit(pause_menu, (size[0] // 2 - 200, size[1] // 2 - 150))
+        screen.blit(music_button, music_button_coordinate)
+        screen.blit(exit_button, exit_button_coordinate)
+        screen.blit(resume_button, resume_button_coordinate)
+        clock.tick(FPS)
+        pygame.display.set_caption(f'{clock.get_fps()}')
+        pygame.display.update()
+
+
 def room0():
     global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
     run = 1
@@ -173,7 +287,7 @@ def room0():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
@@ -197,11 +311,13 @@ def room0():
         screen.blit(hero.image, (hero.x, hero.y))
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
+        mushroom1.list.update()
         pygame.display.update()
 
 
 def room1():
-    global run, time_count, text, event, timer, hp_count, hp, count_ball_text, count
+    global run, time_count, text, event, timer, hp_count, hp, count_ball_text, count, count_ball, room
+    room = 1
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
@@ -210,7 +326,7 @@ def room1():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 run = 0
         if hp_count < 3 and timer < time_count:
@@ -233,24 +349,34 @@ def room1():
         if count == 336:
             count = 0
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
+        if ball1.flag:
+            ball1.collide()
+            if ball1.invent_ball:
+                screen.blit(ball_list[count // 16], (ball1.x, ball1.y))
+            else:
+                count_ball += 1
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
         screen.blit(door_right.sprite, (door_right.x, door_right.y))
         screen.blit(hero.image, (hero.x, hero.y))
         keys = pygame.key.get_pressed()
+        if not key2.key_invent:
+            screen.blit(key_sprite, (key2.x, key2.y))
         if 1 in keys:
             hero.move(keys)
         else:
             hero.render()
         mushroom1.list.update()
         mushroom1.list.draw(screen)
+        log_first[0].list.update()
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
         pygame.display.update()
 
 
 def room2():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, count_ball, room
+    room = 2
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
@@ -259,7 +385,7 @@ def room2():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
@@ -298,19 +424,29 @@ def room2():
         count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
         if count == 336:
             count = 0
+        if ball2.flag:
+            ball2.collide()
+            if ball2.invent_ball:
+                screen.blit(ball_list[count // 16], (ball2.x, ball2.y))
+            else:
+                count_ball += 1
         screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
+        if not key2.key_invent:
+            screen.blit(key_sprite, (key2.x, key2.y))
         screen.blit(hero.image, (hero.x, hero.y))
         log_first[0].list.update()
         log_first[0].list.draw(screen)
         pygame.display.set_caption(f'{clock.get_fps()}')
         clock.tick(FPS)
+        mushroom1.list.update()
         pygame.display.update()
 
 
 def room3():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 3
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
@@ -319,7 +455,7 @@ def room3():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
@@ -349,6 +485,7 @@ def room3():
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
         log_second[0].list.update()
+        log_first[0].list.update()
         log_second[0].list.draw(screen)
         screen.blit(hero.image, (hero.x, hero.y))
         pygame.display.set_caption(f'{clock.get_fps()}')
@@ -359,7 +496,8 @@ def room3():
 
 
 def room4():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 4
     run = 1
     pygame.mixer.music.set_volume(0)
     while run:
@@ -369,7 +507,7 @@ def room4():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
                 elif event.key == pygame.K_SPACE and npc.flag2 < 2:
                     npc.dialog()
             elif event.type == pygame.QUIT:
@@ -399,6 +537,7 @@ def room4():
                 hero.x, hero.h = size[0] // 2 - 55 // 2, size[1] - 300
                 hero.h = 130
                 room5()
+            screen.blit(text, (150, 10))
 
             if 1 in keys:
                 hero.move(keys)
@@ -438,7 +577,8 @@ def room4():
 
 
 def room5():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, flag_music
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, flag_music, room
+    room = 5
     run = 1
     save(1)
     if flag_music:
@@ -453,7 +593,7 @@ def room5():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
@@ -495,7 +635,8 @@ def room5():
 
 
 def room6():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 6
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
@@ -514,7 +655,7 @@ def room6():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
@@ -555,7 +696,8 @@ def room6():
 
 
 def room7():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 7
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
@@ -564,7 +706,7 @@ def room7():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
@@ -604,7 +746,8 @@ def room7():
 
 
 def room8():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 8
     run = 1
     while run:
         time_count = pygame.time.get_ticks()
@@ -613,7 +756,7 @@ def room8():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
                 if event.key == pygame.K_SPACE:
                     run = 2
             elif event.type == pygame.QUIT:
@@ -653,7 +796,8 @@ def room8():
 
 
 def room9():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 9
     run = 1
     pygame.mixer.music.set_volume(0)
     while run:
@@ -663,7 +807,7 @@ def room9():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
                 elif event.key == pygame.K_SPACE and npc2.flag2 < 2:
                     npc2.dialog()
             elif event.type == pygame.QUIT:
@@ -731,7 +875,8 @@ def room9():
 
 
 def room_boss():
-    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text
+    global run, time_count, text, event, timer, hp_count, hp, count, count_ball_text, room
+    room = 10
     save(2)
     run = 1
     pygame.mixer.music.load('data/SOUNDS/boss.mp3')
@@ -751,7 +896,7 @@ def room_boss():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = 0
+                    pause()
             elif event.type == pygame.QUIT:
                 sys.exit()
         hero.render()
