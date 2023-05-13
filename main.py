@@ -338,7 +338,6 @@ def room1():
             if hp_count == 3:
                 run = 0
                 pygame.mixer.music.set_volume(0)
-                c = Lose(text)
         if door_right.collide():
             run = 0
             hero.x = 60
@@ -346,15 +345,16 @@ def room1():
         screen.blit(bg, (0, 0))
         screen.blit(text, (150, 10))
         screen.blit(hp, (10, 10))
+        count_ball_text = font.render(str(count_ball), True, (255, 255, 255))
         if count == 336:
             count = 0
-        screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         if ball1.flag:
             ball1.collide()
             if ball1.invent_ball:
-                screen.blit(ball_list[count // 16], (ball1.x, ball1.y))
+                screen.blit(ball_list[count // 16], (ball2.x, ball2.y))
             else:
                 count_ball += 1
+        screen.blit(ball_list[count // 16], (size[0] - 100, 10))
         count += 1
         screen.blit(count_ball_text, (size[0] - 50, 10))
         screen.blit(door_right.sprite, (door_right.x, door_right.y))
@@ -869,6 +869,7 @@ def room9():
             npc2.render2()
         if npc2.count1 > 0:
             screen.blit(text_d, (npc2.x - len(npc2.text), npc2.y - 30))
+        screen.blit(text, (150, 10))
         clock.tick(FPS)
         pygame.display.set_caption(f'{clock.get_fps()}')
         pygame.display.update()
